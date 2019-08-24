@@ -9,7 +9,7 @@
             "email": "adrian.marian.tomasz.larysz@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
 	"autoload": {
 		"psr-4": {"Massfice\\Storage\\": "src/"}
     }
