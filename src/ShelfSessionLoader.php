@@ -20,9 +20,16 @@
     }
 
     public static function safeLoad(string $key, ShelfBuilder $sb) : Shelf {
-      @session_start();
-      if(self::isStored($key)) return unserialize($_SESSION[$key]);
+      if(self::isStored($key)) return self::load($key);
       else return $sb->build();
+    }
+
+    public static function remove(string $key) : Shelf {
+      if(self::isStored($key)) {
+        $shelf = self::load($key);
+        unset($_SESSION[$key]);
+        return $shelf;
+      }
     }
 
   }
