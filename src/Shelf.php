@@ -61,6 +61,7 @@
     }
 
     public function storeSession(string $key, bool $override_session_allowed) {
+      @session_start();
       if($this->session_allowed) {
         if(!isset($_SESSION[$key]) || ($override_session_allowed && $this->override_session_allowed))
           $_SESSION[$key] = serialize($this);
