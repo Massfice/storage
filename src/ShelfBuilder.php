@@ -14,7 +14,7 @@
       $this->json_allowed = false;
       $this->session_allowed = false;
       $this->override_allowed = true;
-      $this->override_session_allowed = false;
+      $this->override_session_allowed = true;
       $this->modify_allowed = false;
     }
 

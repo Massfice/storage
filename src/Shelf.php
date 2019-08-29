@@ -66,7 +66,7 @@
     public function storeSession(string $key, bool $override_session_allowed) {
       $util = UtilsManager::getInstance()->getSessionUtil();
       if($this->session_allowed) {
-        if($util->isset($key)) || ($override_session_allowed && $this->override_session_allowed))
+        if(!$util->isset($key) || ($override_session_allowed && $this->override_session_allowed))
           $util->store($key,serialize($this));
       }
     }
