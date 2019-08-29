@@ -2,17 +2,19 @@
 
   namespace Massfice\Storage;
 
+  use Massfice\Storage\UtilsManager\UtilsManager;
+
   class ShelfSessionLoader {
 
     public static function load(string $key) : Shelf {
-      @session_start();
-      return unserialize($_SESSION[$key]);
+      $util = UtilsManager::getInstance()->getSessionUtil();
+      return unserialize($util->load($key));
     }
 
     public static function isStored(string $key) : bool {
-      @session_start();
-      if(isset($_SESSION[$key]) && is_string($_SESSION[$key]))
-        $shelf = @unserialize($_SESSION[$key]); //@ - wyłącza notice'a
+      $util = UtilsManager::getInstance()->getSessionUtil();
+      if($util->isset($key) && is_string($util->load($key)))
+        $shelf = @unserialize($util->load($key)); //@ - wyłącza notice'a
       else
         return false;
 
@@ -25,9 +27,10 @@
     }
 
     public static function remove(string $key) : Shelf {
+      $util = UtilsManager::getInstance()->getSessionUtil();
       if(self::isStored($key)) {
         $shelf = self::load($key);
-        unset($_SESSION[$key]);
+        $util->unset($key);
         return $shelf;
       }
     }

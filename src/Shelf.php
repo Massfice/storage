@@ -2,6 +2,8 @@
 
   namespace Massfice\Storage;
 
+  use Massfice\Storage\UtilsManager\UtilsManager;
+
   class Shelf implements \Iterator {
 
     private $position;
@@ -56,15 +58,16 @@
     }
 
     public function makeJson() : string {
-      if($this->json_allowed) return json_encode($this->data);
+      $util = UtilsManager::getInstance()->getJsonUtil();
+      if($this->json_allowed) return $util->encode($this->data);
       else return '';
     }
 
     public function storeSession(string $key, bool $override_session_allowed) {
-      @session_start();
+      $util = UtilsManager::getInstance()->getSessionUtil();
       if($this->session_allowed) {
-        if(!isset($_SESSION[$key]) || ($override_session_allowed && $this->override_session_allowed))
-          $_SESSION[$key] = serialize($this);
+        if($util->isset($key)) || ($override_session_allowed && $this->override_session_allowed))
+          $util->store($key,serialize($this));
       }
     }
 

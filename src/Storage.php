@@ -2,6 +2,8 @@
 
   namespace Massfice\Storage;
 
+  use Massfice\Storage\UtilsManager\UtilsManager;
+
   class Storage {
 
       private static $instance;
@@ -63,16 +65,17 @@
       public function makeJson() : string {
 
         $r = [];
+        $util = UtilsManager::getInstance()->getJsonUtil();
 
         foreach($this->shelfs as $k => $s) {
           $buff = $s->makeJson();
           if($buff != '') {
-            $buff = json_decode($buff,true);
+            $buff = $util->decode($buff);
             $r[$k] = $buff;
           }
         }
 
-        return json_encode($r);
+        return $util->encode($r);
       }
 
       public function storeSession(string ...$override_allows) : self {
