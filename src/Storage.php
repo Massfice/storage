@@ -2,7 +2,7 @@
 
   namespace Massfice\Storage;
 
-  use Massfice\Storage\UtilsManager\UtilsManager;
+  use Massfice\UtilsManager\UtilsManager;
 
   class Storage {
 

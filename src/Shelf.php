@@ -2,8 +2,8 @@
 
   namespace Massfice\Storage;
 
-  use Massfice\Storage\UtilsManager\UtilsManager;
-
+  use Massfice\UtilsManager\UtilsManager;
+  
   class Shelf implements \Iterator {
 
     private $position;
@@ -43,12 +43,14 @@
     }
 
     public function clearData(string ...$clear_this) : self {
+
       if(count($clear_this) == 0) $this->data = [];
       else {
         foreach ($clear_this as $k) {
           if(isset($this->data[$k])) unset($this->data[$k]);
         }
       }
+
       return $this;
     }
 
@@ -63,7 +65,7 @@
       else return '';
     }
 
-    public function storeSession(string $key, bool $override_session_allowed) {
+    public function storeSession(string $key, bool $override_session_allowed = false) {
       $util = UtilsManager::getInstance()->getSessionUtil();
       if($this->session_allowed) {
         if(!$util->isset($key) || ($override_session_allowed && $this->override_session_allowed))
